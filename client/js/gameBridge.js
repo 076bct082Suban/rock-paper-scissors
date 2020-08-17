@@ -24,15 +24,15 @@ export default class GameBridge{
         ctx.drawImage(playButtonImage, this.gameWidth / 2 - this.gameWidth / 10, this.gameHeight / 2 - this.gameHeight / 10, this.gameWidth / 5, this.gameHeight/ 10)
     }
 
-    makePlayer(){
-        username = localStorage.getItem("username")
-        // axios.post('', {
-        //     username: username
-        // })
+    async makePlayer(username){
+        let player = await axios.post('/api/script/user', {
+            username: username
+        })
+        return player
 
     }
     setSearching(){
-        username = localStorage.getItem("username")
-
+        userId = localStorage.getItem("userID")
+        // await axios.patch
     }
 }

@@ -7,14 +7,17 @@ let game = new GameBridge()
 new InputHandler(game, canvas)
 
 document.getElementById("game").style.display = "none";
-document.getElementById("input-name-submit").onclick = () => {
+document.getElementById("input-name-submit").onclick = async () => {
     document.getElementById("game").style.display = "block";
-    username = document.getElementById("input-name-value");
+    let username = document.getElementById("input-name-value").value;
 
     localStorage.setItem("username", username);
-    game.makePlayer()
+    let player = await game.makePlayer(username)
+    localStorage.setItem("userID", player.userID)
     
     document.getElementById("input-name").style.display = "none";
+
+
 }
 
 
