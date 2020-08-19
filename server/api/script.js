@@ -35,7 +35,7 @@ class Player{
         this.userID = uuidv4();
         this.state = STATE.INITIAL;
     }
-    searchGame(){
+    searchGame(gameSet){
         gameSet.findGame(this)
     } 
     changeState(state){
@@ -49,12 +49,13 @@ class Player{
 }
 
 class GameSet {
-    constructor(){
+    constructor(userSet){
         this.games = []
+        this.userSet = userSet
     }
     findGame(user){
         let found = false
-        for(game in this.games){
+        for(let game in this.games){
             if(!game.isFull()){
                 game.addUser(user)
                 found = true;
@@ -79,19 +80,24 @@ class UserSet {
         this.users.push(user)
     }
     setSearching(userID){   
-        if(this.users === []){
+        if(this.users.length == 0){
+            // console.log("fk here")
             return
         }
-        for(user in this.users) {
-            if(user.userID === userID){
+        console.log(this)
+        for(let user of this.users) {
+            console.log("here")
+            console.log(user, userID)
+            if(user.userID == userID){
+                console.log("change state excuted")
                 user.changeState(STATE.SEARCHING)
                 break;
             }
         }
     } 
 }
-let userSet = new UserSet;
-let gameSet = new GameSet;
+// let userSet = new UserSet;
+let gameSet = new GameSet(new UserSet);
 
 
 router.get("/", async(req, res) => {
@@ -101,15 +107,16 @@ router.get("/", async(req, res) => {
 router.post("/user", async (req, res) => {
     let username = req.body.username
     const player = new Player(username)
-    userSet.addUser(player)
+    gameSet.userSet.addUser(player)
     res.status(201).send(player)
 
 })
 router.patch("/user", async (req, res) => {
     let userID = req.body.userID;
     console.log(userID)
-    userSet.setSearching(userID)
-    res.status(201).send()
+    gameSet.userSet.setSearching(userID)
+    // console.log(gameSet)
+    res.status(201).send(gameSet)
 
 })
 

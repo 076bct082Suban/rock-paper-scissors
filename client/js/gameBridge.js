@@ -10,7 +10,8 @@ const GAMEHEIGHT = 600
 const playButtonImage = document.getElementById("play-button-image")
 
 export default class GameBridge{
-    constructor(){
+    constructor(socket){
+        this.socket = socket;
         this.gameWidth = GAMEWIDTH
         this.gameHeight = GAMEHEIGHT
         this.gameid = ""
@@ -25,14 +26,15 @@ export default class GameBridge{
     }
 
     async makePlayer(username){
-        let player = await axios.post('/api/script/user', {
+
+        this.socket.emit("createNewUser", {
             username: username
         })
-        return player
 
     }
     setSearching(){
-        userId = localStorage.getItem("userID")
+        // userId = localStorage.getItem("userID")
         // await axios.patch
+        this.socket.emit("setSearching")
     }
 }
