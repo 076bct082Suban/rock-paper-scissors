@@ -96,7 +96,6 @@ module.exports =  class Connection {
                 if(winner == ""){
                     console.log("here")
                     this.gameSet.addRound(gameID)
-                    
                 }
                 
             }

@@ -77,7 +77,7 @@ export default class GameBridge{
                 ctx.fillText(this.refrenceObject.players[1].username, this.gameWidth / 4 * 3, this.gameHeight / 6);
                 ctx.fillText(`${this.refrenceObject.score[0]} | ${this.refrenceObject.score[1]}`, this.gameWidth / 2, this.gameHeight / 6);
             }
-            console.log(this.playerState)
+            // console.log(this.playerState)
             if(this.playerState == PLAYERSTATE.PICKING){
                 ctx.fillText("Choose: ", this.gameWidth / 2, this.gameHeight / 3);
                 ctx.drawImage(rockImage, this.gameWidth / 4, this.gameHeight / 2, 100, 100)
@@ -99,6 +99,20 @@ export default class GameBridge{
                 ctx.drawImage(getChoiceImage(this.lastResult[1]), this.gameWidth / 4 * 3, this.gameHeight / 2)
             }
         }
+        else if(this.state == GAMEBRIDGESTATE.GAMEOVER){
+            ctx.fillStyle = "white";
+            ctx.font = "36px Arial";
+            ctx.textAlign = "center";
+
+            if(!(Object.keys(this.refrenceObject).length === 0 && this.refrenceObject.constructor === Object)){
+                ctx.fillText(this.refrenceObject.players[0].username, this.gameWidth / 4, this.gameHeight / 6);
+                ctx.fillText(this.refrenceObject.players[1].username, this.gameWidth / 4 * 3, this.gameHeight / 6);
+                ctx.fillText(`${this.refrenceObject.score[0]} | ${this.refrenceObject.score[1]}`, this.gameWidth / 2, this.gameHeight / 6);
+            }
+            ctx.fillText(`${this.getUsername(this.winner)} has won!!!`, this.gameWidth / 2, this.gameHeight / 2)      
+        }
+
+
     }
         
     async makePlayer(username){
@@ -134,15 +148,22 @@ export default class GameBridge{
     showResult(data){
         this.refrenceObject = data.game
         this.playerState = PLAYERSTATE.RESULT;
-        if(data.winner === ""){
-            console.log("as usual")
-        }
+
         this.lastResult = data.game.history[data.game.history.length - 1]
-        
+    
         setTimeout(() => {
             this.playerState = PLAYERSTATE.PICKING;
         }, 3000)
-
+        if(data.winner === ""){
+            console.log("as usual")
+        }else {
+            setTimeout(() => {
+                this.state = GAMEBRIDGESTATE.GAMEOVER
+                this.playerState = PLAYERSTATE.GAMEOVER
+                console.log("game over")
+                this.winner = data.winner
+            }, 3000)
+        }
     }
     getRoundMessage(){
         let id = this.userID
@@ -169,5 +190,13 @@ export default class GameBridge{
                 return `${this.refrenceObject.players[1].username} has won`
             }
         }
+    }
+    getUsername(userID){
+        for(let player of this.refrenceObject.players){
+            if(userID == player.userID){
+                return player.username
+            }
+        }
+        return ""
     }
 }

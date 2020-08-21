@@ -47,11 +47,11 @@ module.exports = class GameSet {
         for(let game of this.games){
             if(gameID == game.gameID){
                 if(game.hasWon()) {
-                    return game.whoWon()
+                    return true
                 }
             }
         }
-        return ""
+        return false
     }
     addRound(gameID){
         for(let game of this.games){
@@ -60,5 +60,15 @@ module.exports = class GameSet {
                 game.addRound()
             }
         }
+    }
+    getWinner(gameID){
+        for(let game of this.games){
+            if(gameID == game.gameID){
+                if(game.hasWon()) {
+                    return game.whoWon()
+                }
+            }
+        }
+        return ""
     }
 }
