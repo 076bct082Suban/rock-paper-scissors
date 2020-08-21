@@ -17,10 +17,7 @@ module.exports = class UserSet {
         if(this.users.length == 0){
             return
         }
-        console.log(this)
         for(let user of this.users) {
-            console.log("here")
-            console.log(user, userID)
             if(user.userID == userID){
                 console.log("change state excuted")
                 user.changeState(STATE.SEARCHING)

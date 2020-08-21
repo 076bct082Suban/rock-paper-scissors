@@ -8,14 +8,15 @@ const STATE = {
 }
 
 module.exports = class GameSet {
-    constructor(userSet){
+    constructor(userSet, connection){
         this.games = []
         this.userSet = userSet
+        this.connection = connection
         console.log("GameSet created")
     }
     findGame(user){
         let found = false
-        for(let game in this.games){
+        for(let game of this.games){
             if(!game.isFull()){
                 game.addUser(user)
                 found = true;
@@ -27,7 +28,7 @@ module.exports = class GameSet {
         }
     }
     createNewGame(user){
-        let game = new Game();
+        let game = new Game(this);
         game.addUser(user);
         this.games.push(game)
     }

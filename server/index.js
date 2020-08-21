@@ -10,7 +10,6 @@ const app = express()
 const port = 3000
 app.use(bodyParser.json())
 app.use(cors())
-const connection = new Connection()
 
 const script = require("./api/script.js")
 app.use('/api/script', script)
@@ -26,6 +25,8 @@ let server = app.listen(port, () => {
 })
 
 let io = socket(server)
+const connection = new Connection(io)
+
 
 io.on("connection", (socket) => {
   console.log(`made connection ${socket.id}`)
@@ -35,7 +36,11 @@ io.on("connection", (socket) => {
     connection.createNewUser(data.username, socket.id)
   } )
 
-  socket.on("setSearching", () => {
+  socket.on("setSearching", async () => {
     connection.setSearching(socket.id)
+
+    
   })
+
+
 })

@@ -8,11 +8,12 @@ const STATE = {
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = class Game {
-    constructor(){
+    constructor(gameSet){
         this.players = []
         this.score = [0, 0]
         this.gameID = uuidv4();
         console.log("Game created")
+        this.gameSet = gameSet
     }
     isFull(){
         if(this.players.length >=2 ){
@@ -23,7 +24,11 @@ module.exports = class Game {
     }
     addUser(user){
         this.players.push(user)
-        console.log(user)
-        console.log(this)
+
+        if(this.players.length == 2){
+            this.players.forEach(player => {
+                this.gameSet.connection.notifyStartGame(player.userID, this)
+            })
+        }
     }
 }

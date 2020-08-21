@@ -24,6 +24,26 @@ document.getElementById("input-name-submit").onclick = async () => {
 
 
 }
+socket.on("notifyStartGame", (data) => {
+    console.log(data)
+    game.startGame(data)
 
+    
+})
+socket.on("hello", (data) => {
+    console.log(data)
+})
 game.draw(ctx)
+
+let lastTime = 0;
+function gameLoop(timestamp) {
+  let deltaTime = timestamp - lastTime;
+  lastTime = timestamp;
+//   game.update(deltaTime);
+  game.draw(ctx);
+
+  requestAnimationFrame(gameLoop);
+}
+
+requestAnimationFrame(gameLoop);
 

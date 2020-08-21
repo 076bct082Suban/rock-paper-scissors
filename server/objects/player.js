@@ -24,7 +24,7 @@ module.exports =  class Player{
         }
         this.state = state
         if(this.state === STATE.SEARCHING){
-            this.searchGame()
+            this.searchGame()            
         }
 
         // Todo
