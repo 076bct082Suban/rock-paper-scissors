@@ -33,6 +33,11 @@ socket.on("notifyStartGame", (data) => {
 socket.on("hello", (data) => {
     console.log(data)
 })
+
+socket.on("picked", (data) => {
+  console.log(data)
+  game.showResult(data)
+})
 game.draw(ctx)
 
 let lastTime = 0;

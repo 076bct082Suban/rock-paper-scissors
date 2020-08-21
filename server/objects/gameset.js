@@ -32,4 +32,33 @@ module.exports = class GameSet {
         game.addUser(user);
         this.games.push(game)
     }
+
+    addPick(userID, pick, gameID){
+        for(let game of this.games) {
+            console.log("checking for games")
+            // console.log(gameID, game.gameID)
+            if(gameID == game.gameID){
+                return game.addPick(userID, pick)
+            }
+        }
+        return {error: "game NOt found"}
+    }
+    checkifWon(gameID){
+        for(let game of this.games){
+            if(gameID == game.gameID){
+                if(game.hasWon()) {
+                    return game.whoWon()
+                }
+            }
+        }
+        return ""
+    }
+    addRound(gameID){
+        for(let game of this.games){
+            if(gameID == game.gameID){
+                console.log("going to add round")
+                game.addRound()
+            }
+        }
+    }
 }

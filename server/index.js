@@ -38,7 +38,10 @@ io.on("connection", (socket) => {
 
   socket.on("setSearching", async () => {
     connection.setSearching(socket.id)
+  })
 
+  socket.on("userPicks", (data) => {
+    connection.addPick(socket.id, data.pick, data.gameID)
     
   })
 
