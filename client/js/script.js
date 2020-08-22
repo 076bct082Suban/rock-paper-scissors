@@ -3,7 +3,8 @@ import InputHandler from "./input.js"
 
 
 // Make connection
-let socket = io.connect("http://localhost:3000");
+// let socket = io.connect("http://localhost:3000");
+let socket = io()
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d")
